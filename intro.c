@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 //Similar to "Using" statements in C# or "Import" in Java
 //Tells the pre-processor that there is some existing code that we want to utilize in this code.
 //Note that the <> brackets tell the pre-processor to look in the built in standard libraries.
@@ -58,14 +58,59 @@ void Modifiers()
 	//add one to e and c
 	e = e + 1;
 	c = c + 1;	
-
+    
 	printf("The value of e is %d\n",e);	
 	printf("The value of c is %d\n",c);
-
+    
 	//display the size of short and long modifiers. Note that a short is 2 bytes inthis environment
 	printf("The size of x and y are %d and %d respectively.\n", sizeof(x), sizeof(y));
 	printf("the size of z id %d.\n", sizeof(z));
+    
+}
 
+//strings in c --> wait a minute! there are no strings in c, well not string
+//objects
+void StringDemo()
+{
+    char myChar = 'm'; //Single quotes surround any single character.
+    char s1[] = "Bill"; //can initialize a string literal to a char []
+    char s2[5];
+    
+    //s2 = "John"; Can't a literal string to char array
+
+    //the only way to assign "John" is char by char
+    s2[0] = 'J';
+    s2[1] = 'o';
+    s2[2] = 'h';
+    s2[3] = 'n';
+    //make sure you always have the null terminator at the end of your strings
+    s2[4] = '\0'; //or s2[4] = 0;    
+
+    //note the use of %s for strings
+    printf("The value of string s1 is %s\n", s1);
+    printf("The size of the string in bytes is %d\n", sizeof(s1));
+
+    printf("The value of string s2 is %s\n", s2);
+    printf("The size of the string in bytes is %d\n", sizeof(s2));
+}
+
+
+//casting in c
+void CastDemo()
+{
+    int x;
+    float y =3.2f;
+    float fahr = 0;
+    float celc = 0;
+
+    //assign y to x
+    x = y;
+    printf("The value of x is%d\n", x);
+
+    //temp conversion
+    printf("The tempurature in farenheight is %f\n", fahr);
+    celc = ((float)5/9)*(fahr-32);
+    printf("The tempurature in Celcius is %f\n", celc);
 }
 
 void DemoConstants()
@@ -75,12 +120,16 @@ void DemoConstants()
 	printf("The value of pi id %f\n", pi);
 }
 
-void main (void)
+int main (void)
 {
 	//Use printf to output to the console.
 	//printf("Hello cruel world\n");
 
 	//PrimitiveDataTypes();
-	Modifiers();
-	DemoConstants();
+	//Modifiers();
+	//DemoConstants();
+    //CastDemo();
+    StringDemo();
+    //normally a c program returns 0 if successful
+    return EXIT_SUCCESS;
 }
