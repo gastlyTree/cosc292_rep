@@ -53,16 +53,16 @@ void intBytePrinter(int iValue)
 
 double Encode()
 {
-    double x;
-
+    double x = 0;
+    char * cNamePtr =(char *)&x;
     printf("Enter the first 3 letters of your name:\n");
-    scanf("%3s", &x);
+    scanf("%3s", cNamePtr);
 
     printf("\nEnter your age\n");
-    scanf("%d", &x);
+    scanf("%d",(int *)(cNamePtr + 4));
 
     printf("\nEnter your student debt\n");
-    scanf("%d", &x);
+    scanf("%hu", (short *)(cNamePtr + 5));
     
     return x;
 }
@@ -70,12 +70,8 @@ double Encode()
 void Decode(double x)
 {
     char * cPtr = (char *)&x;
-    for(int var = 0; var < 3; ++var)
-    {
-        printf("%c", *cPtr++);   
-    }
-    cPtr++;
-    printf("\n%d\n", *cPtr++);
-    printf("%hu\n", *cPtr);
-
+    short * loanPtr = (short *)(cPtr + 5);
+    printf("The name is %s\n", cPtr);
+    printf("The age is %d\n", *(cPtr + 4));
+    printf("The loan is %hu\n", *loanPtr);
 }
