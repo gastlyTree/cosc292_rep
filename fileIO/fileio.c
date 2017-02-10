@@ -31,6 +31,7 @@ int demoOpenClose(const char * fileName, const char * fileMode)
     }
     return iErr;
 }
+
 int demoRead(const char * fileName, const char * fileMode)
 {
     FILE * filePtr;
@@ -81,13 +82,139 @@ int demoRead(const char * fileName, const char * fileMode)
     return iErr;
 
 }
+
 int demoWrite(const char * fileName, const char * fileMode, const char * str)
 {
-    
+    FILE * filePtr;
+    int iErr = EXIT_SUCCESS;
+    int intChar, retVal;
+    char cBuffer [MAXSIZE];
+
+    if((filePtr =  fopen(fileName, fileMode)) != NULL )
+    {
+        retVal = fwrite((void *)str, sizeof(char), strlen(str), filePtr);
+        if(retVal > 0)
+        {
+            printf("File writen: %s\n", fileName);    
+        }
+        else
+        {
+            if(iErr = ferror(filePtr))
+            {
+                    printf("Error writing to the file %s: %s\n", fileName,
+                    strerror(iErr));
+            }
+            else
+            {
+                printf("Could not write data.\n");    
+            }
+        }
+
+        //close the file when done
+        fclose(filePtr);
+        printf("%s was successfully wrote tot he file.\n", fileName);
+    }
+    else
+    {
+        printf("Error accessing the file %s: %s\n", fileName, strerror(iErr));
+    }
+    return iErr;
 }
+
 int demoWriteBinary(const char * fileName, const char * fileMode, const int * iPtr)
 {
-    
+    FILE * filePtr;
+    int iErr = EXIT_SUCCESS;
+    int intChar, retVal;
+
+    if((filePtr =  fopen(fileName, fileMode)) != NULL )
+    {
+        retVal = fwrite((void *)iPtr, sizeof(int), 1, filePtr);
+        if(retVal > 0)
+        {
+            printf("File writen: %s\n", fileName);    
+        }
+        else
+        {
+            if(iErr = ferror(filePtr))
+            {
+                    printf("Error writing to the file %s: %s\n", fileName,
+                    strerror(iErr));
+            }
+            else
+            {
+                printf("Could not write data.\n");    
+            }
+        }
+
+        //close the file when done
+        fclose(filePtr);
+        printf("%s was successfully wrote tot he file.\n", fileName);
+    }
+    else
+    {
+        printf("Error accessing the file %s: %s\n", fileName, strerror(iErr));
+    }
+    return iErr;
 }
 
+int exerciseBinaryWrite(const char* fileName, const char * fileMode)
+{
+    FILE * filePtr;
+    int iErr = EXIT_SUCCESS;
+    int intChar, retVal;
+    
+    if((filePtr =  fopen(fileName, fileMode)) != NULL )
+    {
+	    short x = 0;
+    	printf("\nHow many records?\n");
+    	scanf("%hu", (short *)&x);
+    	retVal = fwrite((void *)&x, sizeof(short), 1, filePtr);    
 
+    	while(x)
+    	{
+            int sn = 0;
+            printf("\nsin number:\n");
+            scanf("%d", (int *)&sn);
+            retVal = fwrite((void *)&sn, sizeof(int), 1, filePtr);
+
+            char cName[MAXNAME];
+            printf("\nYour name:\n");
+            scanf("%20s", cName);
+            retVal = fwrite((void *)&sn, sizeof(int), 1, filePtr);
+            x--;
+    	}	
+
+        if(retVal > 0)
+        {
+            printf("File writen: %s\n", fileName);    
+        }
+        else
+        {
+            if(iErr = ferror(filePtr))
+            {
+                    printf("Error writing to the file %s: %s\n", fileName,
+                    strerror(iErr));
+            }
+            else
+            {
+                printf("Could not write data.\n");    
+            }
+        }
+
+        //close the file when done
+        fclose(filePtr);
+        printf("%s was successfully wrote tot he file.\n", fileName);
+    }
+    else
+    {
+        printf("Error accessing the file %s: %s\n", fileName, strerror(iErr));
+    }
+    return iErr;
+
+}
+
+int exerciseBinaryRead(const char* fileName, const char * fileMode, int id)
+{
+        
+}
