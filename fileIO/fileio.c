@@ -162,49 +162,49 @@ int exerciseBinaryWrite(const char* fileName, const char * fileMode)
 {
     FILE * filePtr;
     int iErr = EXIT_SUCCESS;
-    int intChar, retVal;
+    int iSin, retSin, retName;
+    char cNameArray [MAXNAME];
+    short sNumRecords = NUM_RECORDS;
     
     if((filePtr =  fopen(fileName, fileMode)) != NULL )
     {
-	    short x = 0;
-    	printf("\nHow many records?\n");
-    	scanf("%hu", (short *)&x);
-    	retVal = fwrite((void *)&x, sizeof(short), 1, filePtr);    
-
-    	while(x)
+    	fwrite((void *)&sNumRecords, sizeof(short), 1, filePtr );
+        
+    	
+    	for(int var = 0; var < NUM_RECORDS; ++var)
     	{
-            int sn = 0;
-            printf("\nsin number:\n");
-            scanf("%d", (int *)&sn);
-            retVal = fwrite((void *)&sn, sizeof(int), 1, filePtr);
+            //Prompt the user for a sin number
+            printf("\nEnter sin number:\n");
+            scanf("%i", &iSin);
+            
+            //clear the stdin buffer of any hard return characters
 
-            char cName[MAXNAME];
-            printf("\nYour name:\n");
-            scanf("%20s", cName);
-            retVal = fwrite((void *)&sn, sizeof(int), 1, filePtr);
-            x--;
+            fflush(stdin);
+
+            //get the name
+            printf("\nEnter Name:\n");
+            //Safe way to get a string
+            fgets(cNameArray, MAXNAME -1, stdin);
+
+            retSin = fwrite((void *)&iSin, sizeof(int), 1, filePtr);
+            retName = fwrite((void *)cNameArray, MAXNAME, 1, filePtr);
+
+            if(retSin == 0 || retName == 0)
+            {
+                if((iErr = ferror(filePtr)))
+                {
+                    printf("Error writing the file %s : %s\n", fileName,
+                    strerror(iErr));    
+                }
+                else
+                {
+                    printf("Could not write date\n");    
+                }
+            }
+            
     	}	
-
-        if(retVal > 0)
-        {
-            printf("File writen: %s\n", fileName);    
-        }
-        else
-        {
-            if(iErr = ferror(filePtr))
-            {
-                    printf("Error writing to the file %s: %s\n", fileName,
-                    strerror(iErr));
-            }
-            else
-            {
-                printf("Could not write data.\n");    
-            }
-        }
-
-        //close the file when done
+        //close the file
         fclose(filePtr);
-        printf("%s was successfully wrote tot he file.\n", fileName);
     }
     else
     {
@@ -216,5 +216,42 @@ int exerciseBinaryWrite(const char* fileName, const char * fileMode)
 
 int exerciseBinaryRead(const char* fileName, const char * fileMode, int id)
 {
-        
+    FILE * filePtr;
+    int iErr = EXIT_SUCCESS;
+    int iSin, retSin, retName;
+    char cNameArray [MAXNAME];
+    short sNumRecords = NUM_RECORDS;
+    int found = 0;
+
+    if((filePtr =  fopen(fileName, fileMode)) != NULL )
+    {
+        fread((void *)&sNumRecords, sizeof(short), 1, filePtr);
+
+        for(int var = 0; var < sNumRecords && !found; ++var)
+        {
+            //Read in the SIN#
+            fread((void *)&iSin, sizeof(int), 1, filePtr);
+            if(iSin == id)
+            {
+                //Read the name from  the file, quit looping as well
+                found = fread((void *)cNameArray, MAXNAME, 1, filePtr);
+                printf("The name is %s\n", cNameArray);
+            }
+            else
+            {
+                fseek(filePtr, MAXNAME, SEEK_CUR);    
+            }
+        }
+        if(!found)
+        {
+            printf("SIN# not found.\n");    
+        }
+        //close the file
+        fclose(filePtr);
+    }
+    else
+    {
+        printf("Error accessing the file %s: %s\n", fileName, strerror(iErr));
+    }
+    return iErr;
 }

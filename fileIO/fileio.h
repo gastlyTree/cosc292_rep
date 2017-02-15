@@ -2,6 +2,7 @@
 #define FILEIO_H_
 #define MAXSIZE 100
 #define MAXNAME 20
+#define NUM_RECORDS 3
 
 int demoOpenClose(const char *, const char *);
 int demoRead(const char *, const char *);

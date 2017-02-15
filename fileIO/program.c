@@ -27,10 +27,17 @@ void TestWriteBinary()
     printf("The error number returned was %d\n", iErr);        
 }
 
-void TestExerciseBinaryWrite()
+void TestExerciseWrite()
 {
-    int iErr = exerciseBinaryWrite("snNames", "wb");
-    printf("The error number returned was %d\n", iErr);
+    exerciseBinaryWrite("exercise.dat", "wb");    
+}
+
+TestExerciseRead()
+{
+    int Sin = 0;
+    printf("Enter SIN# to find\n");
+    scanf("%d", &Sin);
+    exerciseBinaryRead("exercise.dat", "rb", Sin);
 }
 
 int main()
@@ -39,6 +46,7 @@ int main()
     //TestRead();
     //TestWriteText();
     //TestWriteBinary();
-    TestExerciseBinaryWrite();
+    TestExerciseWrite();
+    //TestExerciseRead();
     return EXIT_SUCCESS;
 }
