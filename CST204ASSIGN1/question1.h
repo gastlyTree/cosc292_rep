@@ -11,6 +11,6 @@
 #ifndef QUESTION1_H_
 #define QUESTION1_H_
 
-int stringCompare (const char * string1, const char * string2);
+int stringCompare(char * string1, char * string2);
 
 #endif
