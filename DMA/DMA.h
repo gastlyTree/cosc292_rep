@@ -1,4 +1,9 @@
-
+/*
+ * DMA.h
+ *
+ *  Created on: Feb 15, 2017
+ *      Author: ins222
+ */
 
 #ifndef DMA_H_
 #define DMA_H_
@@ -8,21 +13,20 @@
 //Method to print an array of integers
 void printInts(int *, int);
 
-//return an array of integers that are synamically allocated
+//Return an array of integers that are dynamically allocated
 int * getInts(int);
 
-//add an int tot he end of a dynamic array
+//Add an int to the end of a dynamic array
 int * addInt(int *, int *);
 
-//get a dynamic string
+//Get a dynamic string
 char * getStringDynamic (char *);
 
-//a function t hat creates a buffer with a name (MAX)NAME_SIZE) and SIN#
+//A function that creates a buffer with a name (MAX_NAME_SIZE) and SIN#
 char * getNameAndSIN();
 
-//a function to display a name and SIN#
+//A function to display a name and sin#
 void printNameAndSIN(char *);
 
-#endif
 
-
+#endif /* DMA_H_ */
