@@ -115,12 +115,26 @@ char * getNameAndSIN()
 {
     //create a buffer that can fit 20 chars for the names and one int for the
     //SIN#
-    char * iBufferPtr = (char *)malloc(MAX_NAME_SIZE*sizeof(char)+1*sizeof(int));
+    char * cArray = (char *)malloc(MAX_NAME_SIZE*sizeof(char)+sizeof(int));
     
+    //Read in the name
+    printf("Enter the name: ");
+    fgets(cArray, MAX_NAME_SIZE, stdin);
+
+    //fgets puts in t he newline character which we might not want.
+    //you can overwrite it with a null terminator
+    cArray[strlen(cArray)-1] = '\0';
+
+    //read in the SIN#
+    printf("Enter the SIN#: ");
+    scanf("%d", (int *)(cArray+MAX_NAME_SIZE));
+
+    return cArray;
 }
 
 //A function to display a name and sin#
 void printNameAndSIN(char * cBufferPtr)
 {
-
+    printf("The name is %s\n", cBufferPtr);
+    printf("The SIN# is %d\n", *((int *)(cBufferPtr+MAX_NAME_SIZE)));
 }
