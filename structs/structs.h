@@ -53,6 +53,25 @@ typedef struct
 	int iMarkCount;
 }student;
 
+typedef struct
+{
+	//Array of student pointers
+	student ** sPtrPtr;
+	unsigned short sNumStudents;
+} classroom;
+
+/*
+Ask the user how many students they want to enter.
+For each student, ask the user for data.
+Call CreateStudent, and add that pointer to the classroom array of students.
+Set the number of students.
+*/
+classroom PopulateClassroom();
+
+//Display each student in the classroom.
+void DisplayClassroom(classroom);
+student * GetStudent();
+
 void DisplayBirthDateBasic(struct BirthDate);
 void DisplayBirthDateTypeDef(BirthDateTD);
 void AlterBirthDate(BirthDateTD);

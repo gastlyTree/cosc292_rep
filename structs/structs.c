@@ -36,7 +36,25 @@ void AlterBirthDateByRef(BirthDateTD * bdPtr)
 
 student * CreateStudent(char * cNamePtr, int iStudentNum, int * iMarksPtr, int iMarkCount)
 {
-    
+    //Allocate memory for the student struct
+	student * sPtr = (student *)malloc(sizeof(student));
+
+	//Allocate memory for the name
+	sPtr->cNamePtr = (char *)malloc((strlen(cNamePtr)+1)*sizeof(char));
+	//Copy the string to the allocated buffer
+	strcpy(sPtr->cNamePtr, cNamePtr);
+
+	//Assign the student number
+	sPtr->iStudentNum = iStudentNum;
+
+	//Marks array
+	sPtr->iMarksPtr = (int *)malloc(iMarkCount*sizeof(int));
+	memcpy(sPtr->iMarksPtr, iMarksPtr, iMarkCount*sizeof(int));
+
+	//Set the mark count
+	sPtr->iMarkCount = iMarkCount;
+
+	return sPtr;    
 }
 
 //Note student is pass by value, therefore use . operator on s
@@ -63,4 +81,55 @@ void FreeStudent(student * sPtr)
 
 	free(sPtr);
 	sPtr = NULL;
+}
+
+/*
+Ask the user how many students they want to enter.
+For each student, ask the user for data.
+Call CreateStudent, and add that pointer to the classroom array of students.
+Set the number of students.
+*/
+classroom PopulateClassroom()
+{
+	classroom c;
+	printf("Enter number of students:");
+	scanf("hu", &c.sNumStudents);
+
+	c.sPtrPtr = (student **)malloc(c.sNumStudents*sizeof(student *));
+
+	printf("%hu", c.sNumStudents);
+	for (int var = 0; var < c.sNumStudents; ++var)
+	{
+		c.sPtrPtr[var] = GetStudent();
+	}
+	return c;
+}
+
+student * GetStudent()
+{
+	char cName [256];
+	int iMarks [2];
+	int iStudentNum = 0;;
+
+	printf("Enter student name: ");
+	fflush(stdin);
+	gets(cName);
+
+	printf("Enter student number: ");
+	scanf("%d", &iStudentNum);
+
+	printf("Enter two marks: ");
+	scanf("%d %d",iMarks, iMarks + 1);
+
+	return CreateStudent(cName, iStudentNum, iMarks, 2);
+}
+
+
+//Display each student in the classroom.
+void DisplayClassroom(classroom c)
+{
+	for (int var = 0; var < c.sNumStudents; ++var)
+	{
+		DisplayStudent(*c.sPtrPtr[var]);
+	}
 }

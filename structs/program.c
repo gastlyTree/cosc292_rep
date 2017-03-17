@@ -101,11 +101,19 @@ void TestStudentStruct()
 	FreeStudent(sPtr);
 }
 
+void TestClassRoom()
+{
+	classroom c;
+	c = PopulateClassroom();
+	DisplayClassroom(c);
+}
 
 int main (void)
 {
 	//TestStructDeclarationTypedef();
-	TestDynamicallyAllocatedStructs();
+	//TestDynamicallyAllocatedStructs();
+    //TestStudentStruct();
+    TestClassRoom();
 
 	return EXIT_SUCCESS;
 }
