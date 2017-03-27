@@ -1,5 +1,5 @@
 /*
-    program.c
+    Assign2.c
 
     Nicholas Sutter
     CST240
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
-#include "Assign2"
+#include "Assign2.h"
 
 //Create a vehicle with the given information passed in.
 //There are no repairs at this point, so set the 'repairs' pointer to NULL
@@ -21,7 +21,6 @@ Vehicle * CreateVehicle (char * cVinP, char * cMakeP, char * cModelP)
     vPtr->cVin = cVinP;
     vPtr->cMake = cMakeP;
     vPtr->cModel = cModelP;
-    vPtr->repairs = 
     vPtr->iNumRepairs = 0;
 
     return vPtr;
@@ -45,7 +44,12 @@ Repair * CreateRepair (int iRepairID, double dCost, char * cDescriptonP, char * 
 //'repairs' array.
 void AddRepair(Vehicle * vP, Repair * rP)
 {
-
+    Repair * newArrayPtr = (Repair *)malloc(sizeof(Repair) * (*vP.iNumRepairs +1));
+    memcpy(newArrayPtr, vP, sizeof(newArrayPtr));
+    *vP.iNumRepairs++;
+    *vP.repairs[*vP.iNumRepairs] = *rP;
+    free(vP.repairs);
+    *vP.repairs = *newArrayPtr
 }
 
 //Display the data regarding the vehicle an all of its repairs
