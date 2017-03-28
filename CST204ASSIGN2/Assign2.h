@@ -1,3 +1,11 @@
+/*
+    Assign2.h
+
+    Nicholas Sutter
+    CST240
+
+*/
+
 #ifndef ASSIG2_H
 #define ASSIG2_H
 #define MAX_VIN 18

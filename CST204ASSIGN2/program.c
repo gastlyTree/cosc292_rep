@@ -20,4 +20,5 @@ void main (void)
 	DisplayVehicle(*v);
 	DeleteRepair(20,v);
 	DisplayVehicle(*v);
+    freeVehicle(v);
 }
