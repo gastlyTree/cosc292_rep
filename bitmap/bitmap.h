@@ -70,6 +70,15 @@ typedef struct
 
 #pragma pack (pop) //Reset the alignment
 
+//helper function to open a file
+FILE * GetFile(char * cPrompt, char * cMode);
+
+//A function pointer to a function that manipulates a pixel
+typedef void (*BM_FUNC_PTR)(PIXEL *);
+
+//A function to loop through the array of pixels
+BOOL ManipulateImage(IMAGE * imgPtr, BM_FUNC_PTR pixelFunc);
+
 //Functions to read in an image
 void ReadImage (IMAGE * imgPtr, FILE * infile);
 void ReadHeader(IMAGE * imgPtr, FILE * infile);
