@@ -2,11 +2,43 @@
  * bitmap.c
  *
  *  Created on: Mar 28, 2017
- *      Author: ins222
+ *      Author: cst204
  */
 
 #include "bitmap.h"
 #include <malloc.h>
+
+PIXEL * GetPixel(unsigned int row, unsigned int col, IMAGE * imgPtr)
+{
+    unsigned int padding = imgPtr->bmHDR->dwWidth%4;
+    
+    //offset = sizeof a row in bytes * number of complete rows + number of bytes
+    //preceding the desired pixel in the last row
+    unsigned int offset = (imgPtr->bmHDR->dwWidth*sizeof(PIXEL) + padding) * row
+    + col * sizeof(PIXEL);
+    //must cast to a byte pointer to move the correct number of bytes
+    return (PIXEL *)((BYTE *)imgPtr->bmData + offset);
+}
+
+void ManipulateTwoImages(IMAGE * imgPtr1, IMAGE * imgPtr2, BM_TWO_PIXELS pixelsFunc)
+{
+    int i = 0;
+    int j = 0;
+
+    int height = imgPtr1->bmHDR->dwHeight < imgPtr2->bmHDR->dwHeight ?
+    imgPtr1->bmHDR->dwHeight : imgPtr2->bmHDR->dwHeight;
+    
+    int width = imgPtr1->bmHDR->dwWidth < imgPtr2->bmHDR->dwWidth ?
+    imgPtr1->bmHDR->dwWidth : imgPtr2->bmHDR->dwWidth;
+
+    for ( i = 0; i < height; ++i)
+    {
+        for (j= 0; j < width; ++j)
+        {
+            pixelsFunc(GetPixel(i,j,imgPtr1), GetPixel(i,j,imgPtr2));
+        }
+    }
+}
 
 BOOL ManipulateImage(IMAGE * imgPtr, BM_FUNC_PTR pixelFunc)
 {
@@ -22,7 +54,7 @@ BOOL ManipulateImage(IMAGE * imgPtr, BM_FUNC_PTR pixelFunc)
 			{
 				for (j = 0; j < imgPtr->bmHDR->dwWidth; ++j)
 				{
-					pixelFunc(imgPtr->bmData + i*imgPtr->bmHDR->dwWidth + j);
+					pixelFunc(GetPixel(i,j,imgPtr));
 				}
 			}
 		}
